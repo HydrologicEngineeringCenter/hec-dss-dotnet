@@ -3,11 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+  <Version>1.0.1</Version>
+</PropertyGroup>
+
 
   <ItemGroup>
     <None Include="lib\net7.0\Hec.Dss.dll" Pack="true" PackagePath="lib/net7.0" />
-    <None Include="lib\net7.0\hecdss.dll" Pack="true" PackagePath="lib/net7.0" Condition=" '$(OS)' == 'Windows_NT' " />
-    <None Include="lib\net7.0\libhecdss.so" Pack="true" PackagePath="lib/net7.0" Condition=" '$(OS)' != 'Windows_NT' " />
+    <None Include="lib\net7.0\hecdss.dll" Pack="true" PackagePath="lib/net7.0"   />
+    <None Include="lib\net7.0\libhecdss.so" Pack="true" PackagePath="lib/net7.0"  />
   </ItemGroup>
 
 </Project>
