@@ -142,6 +142,16 @@ internal class DssNative
   byte[] typeDependent, int typeDependentLength,
   byte[] labels, int labelsLength);
 
+  [DllImport("hecdss")]
+  public static extern int hec_dss_pdStore(IntPtr dss, string pathname,
+  double[] Ordinates, int OrdinatesLength,
+  double[] Values, int ValuesLength,
+  int numberOrdinates, int numberCurves,
+  byte[] unitsIndependent,
+  byte[] typeIndependent,
+  byte[] unitsDependent,
+  byte[] typeDependent, 
+  byte[] labels);
 
   [DllImport("hecdss")]
   public static extern int hec_dss_gridRetrieve(IntPtr dss, string pathname, int boolRetrieveData,

@@ -9,23 +9,67 @@ namespace DSSUnitTests
   [TestClass]
   public class PairedDataTest
   {
+    private static void AssertEqual(PairedData a, PairedData b)
+    {
+      Assert.AreEqual(a.UnitsDependent, b.UnitsDependent);
+      Assert.AreEqual(a.TypeDependent, b.TypeDependent);
+      Assert.AreEqual(a.UnitsDependent, b.UnitsDependent);
+      Assert.AreEqual(a.TypeDependent, b.TypeDependent);
+      Assert.AreEqual(a.TypeDependent, b.TypeDependent);
+      Assert.AreEqual(a.Ordinates.Length, b.Ordinates.Length);
+      Assert.AreEqual(a.CurveCount, b.CurveCount);
+      Assert.AreEqual(a.Labels.Count, b.Labels.Count);
+
+      for (int i = 0; i < a.Ordinates.Length; i++)
+      {
+        Assert.AreEqual(a.Ordinates[i], b.Ordinates[i], 0.0001);
+      }
+      for (int i = 0; i < a.CurveCount; i++)
+      {
+        for (int j = 0; j < a.Values[i].Length; j++)
+        {
+          Assert.AreEqual(a.Ordinates[i], b.Ordinates[i], 0.0001);
+        }
+      }
+      for (int i = 0; i < a.Labels.Count; i++)
+      {
+        Assert.AreEqual(a.Labels[i], b.Labels[i]);
+      }
+
+    }
+
     [TestMethod]
-    public void ReadPairedData()
+    public void SingleColumnPairedData()
     {
       var path = "/MY BASIN/DEER CREEK/STAGE-FLOW///USGS/";
-      using (DssReader r = new DssReader(TestUtility.GetCopyForTesting( "sample7.dss")))
+      var pathWrite = "/MY BASIN/DEER CREEK/STAGE-FLOW///write/";
+
+      string fn = TestUtility.GetCopyForTesting("sample7.dss");
+      using (var w = new DssWriter(fn))
       {
-        var pd = r.GetPairedData(path);
-
-
-        //Assert.AreEqual()
+        var pd = w.GetPairedData(path);
         Assert.AreEqual("FEET", pd.UnitsIndependent);
         Assert.AreEqual("UNT", pd.TypeDependent);
-
         Assert.AreEqual("CFS", pd.UnitsDependent);
         Assert.AreEqual("UNT", pd.TypeDependent);
-
         Assert.AreEqual(0, pd.LocationInformation.CoordinateID);
+
+        Assert.AreEqual(34,pd.Ordinates.Length);
+        Assert.AreEqual(1,pd.CurveCount);
+        Assert.AreEqual(0, pd.Ordinates[0],0.01);
+        Assert.AreEqual(22.7, pd.Ordinates[33],0.01);
+
+        Assert.AreEqual(1, pd.Values.Count);
+        Assert.AreEqual(0, pd.Values[0][0],0.01);
+        Assert.AreEqual(13600, pd.Values[0][33],0.01);
+        Assert.AreEqual(pd.Ordinates.Length, pd.Values[0].Length);
+
+        pd.Path = new DssPath(pathWrite);
+        w.Write(pd);
+
+        var pd2 = w.GetPairedData(pathWrite);
+        // compare what was written to original
+        AssertEqual(pd,pd2);
       }
 
     }
