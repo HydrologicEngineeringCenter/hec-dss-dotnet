@@ -2,3 +2,4 @@
 /dotnet/Hec.Dss.Library/lib/net7.0
 /.vs/VSWorkspaceState.json
 /.vs/hec-dss-dotnet/v17/.wsuo
+/dotnet/Hec.Dss/native-lib/**

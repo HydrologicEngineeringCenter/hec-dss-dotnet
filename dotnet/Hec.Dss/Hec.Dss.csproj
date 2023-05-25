@@ -3,9 +3,8 @@
     <TargetFrameworks>net7.0</TargetFrameworks>
     <Platforms>AnyCPU</Platforms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <!--<AllowUnsafeBlocks>true</AllowUnsafeBlocks>-->
     <LangVersion>Latest</LangVersion>
-    <Authors>Karl Tarbet Anton Rotter-Sieren Neema Nejad Chris Havens</Authors>
+    <Authors>Karl Tarbet, Anton Rotter-Sieren, Neema Nejad, Chris Havens</Authors>
     <Owner>
       US Army Corps of Engineers
       Hydrologic Engineering Center
@@ -15,25 +14,15 @@
     <PackageDescription>
       Hec.Dss is a .net API for HEC-DSS  https://www.hec.usace.army.mil/software/hec-dss/documentation.aspx
     </PackageDescription>
-    <PackageVersion>2.0.0-Beta8</PackageVersion>
+    <PackageVersion>2.0.0-Beta9</PackageVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  
-  <!-- hecdss.dll reference needed because native C and Fortran code -->
-
-  <!--<ItemGroup>
-    --><!--if this content doesn't exist on your machine, this content will not be included in the generated NuGet Package--><!--
-      <Content Include="$(SolutionDir)\\heclib\\hecdss\\x64\\Release\\hecdss.dll">
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-    </Content>
-  </ItemGroup>-->
-
-  <ItemGroup>
-    <Folder Include="build\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="hecdss" Version="7.0.4" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="native-lib\win\hecdss.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+        <None Include="native-lib\linux\libhecdss.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
+    </ItemGroup>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+      <Exec Command="powershell -ExecutionPolicy Unrestricted  -File download-hecdss.ps1" />
+    </Target>
   
 </Project>
