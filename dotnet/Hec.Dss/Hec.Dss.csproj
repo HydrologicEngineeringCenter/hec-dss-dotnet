@@ -14,7 +14,7 @@
     <PackageDescription>
       Hec.Dss is a .net API for HEC-DSS  https://www.hec.usace.army.mil/software/hec-dss/documentation.aspx
     </PackageDescription>
-    <PackageVersion>2.0.0-Beta9</PackageVersion>
+    <PackageVersion>2.0.0-Beta10</PackageVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
     <ItemGroup>

@@ -15,11 +15,16 @@ $win = $baseURL + $version+ "-win-x86_64/hecdss-" + $version +"-win-x86_64.zip"
 
 Remove-Item -Recurse -Force native-lib\linux
 New-Item -Type Directory -Path native-lib\linux
-Invoke-WebRequest -URI $linux -OutFile native-lib\linux\libhecdss.so
+cd native-lib\linux
+Invoke-WebRequest -URI $linux -OutFile libhecdss.zip
+cmd /r 7z e libhecdss.zip
 
 
 Remove-Item -Recurse -Force native-lib\win
 New-Item -Type Directory -Path native-lib\win
-Invoke-WebRequest -URI $win -OutFile native-lib\win\hecdss.dll
+cd ..\win
+Invoke-WebRequest -URI $win -OutFile hecdss.zip
+cmd /r 7z e hecdss.zip
+cd ..\..
 }
 cmd /r dir /s /b .\native-lib\
