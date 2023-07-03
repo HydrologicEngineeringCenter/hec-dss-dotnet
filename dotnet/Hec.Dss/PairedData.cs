@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Hec.Dss
 {
@@ -16,6 +17,23 @@ namespace Hec.Dss
     public string UnitsIndependent { get; set; }
     public string UnitsDependent { get; set; }
     public int CurveCount { get { return Values.Count; } }
+    public double[] FlattenedValues
+    {
+      get
+      {
+        int totalLength = Values.Sum(arr => arr.Length);
+        double[] rval = new double[totalLength];
+
+        int index = 0;
+        foreach (double[] array in Values)
+        {
+          Array.Copy(array, 0, rval, index, array.Length);
+          index += array.Length;
+        }
+
+        return rval;
+      }
+    }
 
     public LocationInformation LocationInformation { get; set; }
 

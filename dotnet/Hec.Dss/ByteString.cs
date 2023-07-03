@@ -19,7 +19,17 @@ namespace Hec.Dss
     {
       Data = Encoding.ASCII.GetBytes(s);
     }
-    
+    public ByteString(List<string> labels)
+    {
+      StringBuilder stringBuilder = new StringBuilder();
+      foreach (string label in labels)
+      {
+        stringBuilder.Append(label);
+        stringBuilder.Append('\0');
+      }
+      Data = Encoding.ASCII.GetBytes(stringBuilder.ToString());
+    }
+
     public int Length { get { return Data.Length; } }
     public byte[] Data { get; }
 
