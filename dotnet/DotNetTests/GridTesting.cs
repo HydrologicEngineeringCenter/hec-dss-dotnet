@@ -495,6 +495,7 @@ YCoord Of Grid Cell Zero: 0.0
 
         VerifyV7AlbersGrid(g,path.FullPath);
         path.Epart = path.Epart + "v2";
+        g.PathName = path.FullPath;
         dss.Write(g);
         var g2 = dss.GetGrid(path,true);
         VerifyV7AlbersGrid(g2, path.FullPath);

@@ -204,32 +204,20 @@ namespace Hec.Dss
     /// <param name="grid">the grid you want to store</param>
     public void Write(Grid grid)
     {
-      
-      
-      //DssNative.hec_dss_gridStore(dss,grid.PathName,grid.GridType,grid.DataType,
-      //  grid.LowerLeftCellX, grid.LowerLeftCellY,
-      //  grid.NumberOfCellsX, grid.NumberOfCellsY,
-      //  grid.RangeLimitTable.Length, grid.SRSDefinitionType,
-      //  grid.TimeZoneRawOffset, grid.IsInterval, grid.IsTimeStamped,
-      //  grid.Units, grid.DataSource
+      int status = DssNative.hec_dss_gridStore(dss, grid.PathName, (int)grid.GridType,
+   (int)grid.DataType,
+   grid.LowerLeftCellX, grid.LowerLeftCellY,
+   grid.NumberOfCellsX, grid.NumberOfCellsY,
+   grid.RangeLimitTable.Length, grid.SRSDefinitionType,
+   grid.TimeZoneRawOffset, grid.IsInterval ? 1 : 0, grid.IsTimeStamped ? 1 : 0,
+   grid.Units, grid.DataSource,
+   grid.SRSName, grid.SRSDefinition,
+   grid.TimeZoneID, grid.CellSize, grid.XCoordOfGridCellZero,
+   grid.YCoordOfGridCellZero, grid.NullValue, grid.MaxDataValue, grid.MinDataValue,
+   grid.MeanDataValue, grid.RangeLimitTable, grid.NumberEqualOrExceedingRangeLimit,
+   grid.Data, grid.Data.Length);
 
-
-      /*
-        gs.DataUnits = grid.DataUnits;
-        gs.DataType = (int)grid.DataType;
-        gs.LowerLeftCellX = grid.LowerLeftCellX;
-        gs.LowerLeftCellY = grid.LowerLeftCellY;
-        gs.NumberOfCellsX = grid.NumberOfCellsX;
-        gs.NumberOfCellsY = grid.NumberOfCellsY;
-        gs.CellSize = grid.CellSize;
-        gs.MaxDataValue = grid.MaxDataValue;
-        gs.MinDataValue = grid.MinDataValue;
-        gs.MeanDataValue = grid.MeanDataValue;
-        gs.NumberOfRanges = grid.NumberOfRanges;
-        gs.RangeLimitTable = grid.RangeLimitTable;
-        gs.NumberEqualOrExceedingRangeLimit = grid.NumberEqualOrExceedingRangeLimit;
-      */
-
+      Console.WriteLine(status);
     }
 
     /// <summary>
