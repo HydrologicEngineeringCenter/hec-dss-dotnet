@@ -125,8 +125,8 @@ internal class DssNative
    int coordinateSystem,  int coordinateID,
    int horizontalUnits,  int horizontalDatum,
    int verticalUnits,  int verticalDatum,
-   byte[] timeZoneName,
-   byte[] supplemental,
+   string timeZoneName,
+   string supplemental,
    int replace);
 
   [DllImport("hecdss")] 
@@ -154,11 +154,11 @@ internal class DssNative
   double[] Ordinates, int OrdinatesLength,
   double[] Values, int ValuesLength,
   int numberOrdinates, int numberCurves,
-  byte[] unitsIndependent,
-  byte[] typeIndependent,
-  byte[] unitsDependent,
-  byte[] typeDependent, 
-  byte[] labels);
+  string unitsIndependent,
+  string typeIndependent,
+  string unitsDependent,
+  string typeDependent, 
+  byte[] labels, int labelsLength);
 
   [DllImport("hecdss")]
   public static extern int hec_dss_gridRetrieve(IntPtr dss, string pathname, int boolRetrieveData,

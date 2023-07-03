@@ -189,11 +189,9 @@ namespace Hec.Dss
     public int StoreLocation(string dssPath, LocationInformation loc, bool overwrite = false)
     {
 
-      var timeZoneName = new ByteString(loc.TimeZoneName);
-      var supplemental = new ByteString(loc.Supplemental);
       int status = DssNative.hec_dss_locationStore(dss, dssPath, loc.XOrdinate, loc.YOrdinate, loc.ZOrdiante,
          (int)loc.CoordinateSystem, loc.CoordinateID, loc.HorizontalUnits, loc.HorizontalDatum,
-         loc.VerticalUnits, loc.VerticalDatum, timeZoneName.Data, supplemental.Data, overwrite? 1:0);
+         loc.VerticalUnits, loc.VerticalDatum, loc.TimeZoneName, loc.Supplemental, overwrite? 1:0);
       return status;
     }
 
