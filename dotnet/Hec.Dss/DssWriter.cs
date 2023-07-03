@@ -259,22 +259,16 @@ namespace Hec.Dss
 
     public void Write(PairedData pd)
     {
-      throw new NotImplementedException("NotU+0020supportedU+0020yet.");
-      /*
-      int storageFlag = 2; // store as doubles
-      List<double> d = new List<double>();
-      foreach (var col in pd.Values)
-      {
-        foreach (var val in col)
-        {
-          d.Add(val);
-        }
-      }
-      double[] dValues = d.ToArray();
-      double[] dOrdinates = pd.Ordinates;
-      ZStructPairedDataWrapper pds = DSS.ZStructPdNewDoubles(pd.Path.FullPath, ref dOrdinates, ref dValues, pd.Ordinates.Length, pd.Values.Count, pd.UnitsIndependent, pd.TypeIndependent, pd.UnitsDependent, pd.TypeDependent);
-      DSS.ZpdStore(ref ifltab, ref pds, storageFlag);
-      */
+
+      var values = pd.FlattenedValues;
+      ByteString labels = new ByteString(pd.Labels);
+
+      int status = DssNative.hec_dss_pdStore(dss, pd.Path.FullPath, pd.Ordinates,
+        pd.Ordinates.Length, values,
+        values.Length, pd.Ordinates.Length, pd.CurveCount, pd.UnitsIndependent,
+        pd.TypeIndependent, pd.UnitsDependent, pd.TypeDependent, 
+        labels.Data, labels.Data.Length);
+
     }
 
   }
