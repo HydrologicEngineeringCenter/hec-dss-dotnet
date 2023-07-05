@@ -22,7 +22,7 @@
         <None Include="native-lib\linux\libhecdss.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-      <Exec Command="powershell -ExecutionPolicy Unrestricted  -File download-hecdss.ps1" />
+      <Exec Command="if &quot;$(CleanSolution)&quot; == &quot;true&quot; (&#xD;&#xA;    echo Cleaning the solution...&#xD;&#xA;    powershell -ExecutionPolicy Unrestricted  -File pre-build-clean.ps1&#xD;&#xA;&#xD;&#xA;) else (&#xD;&#xA;    echo Building the solution...&#xD;&#xA;    powershell -ExecutionPolicy Unrestricted  -File download-hecdss.ps1&#xD;&#xA;  )&#xD;&#xA;&#xD;&#xA;" />
     </Target>
   
 </Project>

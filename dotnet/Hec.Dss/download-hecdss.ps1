@@ -8,8 +8,8 @@ if( Test-Path -Path native-lib\win\hecdss.dll ){
 }
 else{
 $baseURL = "https://www.hec.usace.army.mil/nexus/repository/maven-public/mil/army/usace/hec/hecdss/"
-$win_version = "7-IR-1a"
-$linux_version = "7-IR-1"
+$win_version = "7-IR-2"
+$linux_version = "7-IR-2"
 
 $linux = $baseURL + $linux_version+ "-linux-x86_64/hecdss-" + $linux_version +"-linux-x86_64.zip"
 $win = $baseURL + $win_version+ "-win-x86_64/hecdss-" + $win_version +"-win-x86_64.zip"
