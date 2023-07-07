@@ -611,8 +611,8 @@ namespace DSSUnitTests
       using DssReader r = new DssReader(TestUtility.GetCopyForTesting("examples-all-data-types.dss"));
       var ts = r.GetTimeSeries(path);
       var dt = ts.ToDataTable();
-      var s = dt.Rows[0]["Quality"].ToString().Trim();
-      Assert.AreEqual("OriginalValue, NoRevision", s);
+      var i = (int)dt.Rows[0]["Quality"];
+      Assert.AreEqual(0,i);
     }
 
 

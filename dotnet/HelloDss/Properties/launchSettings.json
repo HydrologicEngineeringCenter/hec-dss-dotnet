@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HelloDss": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

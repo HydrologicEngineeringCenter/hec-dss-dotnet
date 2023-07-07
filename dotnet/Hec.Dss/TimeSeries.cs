@@ -142,9 +142,10 @@ namespace Hec.Dss
       {
         Values[i] = value.Value;
         Times[i] = value.DateTime;
+
         if (HasQuality)
         {
-          Qualities[i] = value.IntQuality;
+          Qualities[i] = value.Quality;
         }
       }
     }
@@ -178,29 +179,27 @@ namespace Hec.Dss
       }
     }
 
-    public DataTable ToDataTable(bool ShowIndex = true, bool ShowQuality = true)
+    public DataTable ToDataTable(bool withIndex = true, bool withQuality = true)
     {
       var dt = new DataTable();
+      bool includeQualty = withQuality && HasQuality;
       var cols = new List<DataColumn>();
-      if (ShowIndex)
+      if (withIndex)
         cols.Add(new DataColumn("Index", typeof(int)));
       cols.Add(new DataColumn("DateTime", typeof(DateTime)));
       cols.Add(new DataColumn("Value", typeof(double)));
-      if (ShowQuality)
-        cols.Add(new DataColumn("Quality", typeof(string)));
+      if (includeQualty)
+        cols.Add(new DataColumn("Quality", typeof(int)));
       dt.Columns.AddRange(cols.ToArray());
 
       for (int i = 0; i < Count; i++) {
-        var qualityStr = "";
-        if (Qualities != null && Qualities.Length > i)
-          qualityStr = Quality.ToString(Qualities[i]);
-
-        if (ShowIndex && ShowQuality)
-          dt.Rows.Add(i + 1, Times[i], Values[i], qualityStr);
-        else if (ShowIndex && !ShowQuality)
+        
+        if (withIndex && includeQualty)
+          dt.Rows.Add(i + 1, Times[i], Values[i], Qualities[i]);
+        else if (withIndex && !includeQualty)
           dt.Rows.Add(i + 1, Times[i], Values[i]);
-        else if (!ShowIndex && ShowQuality)
-          dt.Rows.Add(Times[i], Values[i], qualityStr);
+        else if (!withIndex && includeQualty)
+          dt.Rows.Add(Times[i], Values[i], Qualities[i]);
         else
           dt.Rows.Add(Times[i], Values[i]);
       }
