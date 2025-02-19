@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Platforms>AnyCPU</Platforms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>Latest</LangVersion>
