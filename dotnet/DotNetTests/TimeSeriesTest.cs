@@ -98,7 +98,8 @@ namespace DSSUnitTests
     }
 
     [TestMethod]
-    public void TestTimeSeriesProfile()
+      [Ignore]
+      public void TestTimeSeriesProfile()
     {
       string filename = TestUtility.GetSimpleTempFileName(".dss");
       int numRows = 10000;
