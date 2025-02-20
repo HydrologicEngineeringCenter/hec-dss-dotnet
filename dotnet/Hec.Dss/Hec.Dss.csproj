@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Platforms>AnyCPU</Platforms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>Latest</LangVersion>
@@ -15,7 +15,7 @@
     <PackageDescription>
       Hec.Dss is a .net API for HEC-DSS  https://www.hec.usace.army.mil/software/hec-dss/documentation.aspx
     </PackageDescription>
-    <PackageVersion>2.0.0-beta.17</PackageVersion>
+    <PackageVersion>2.0.1</PackageVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
     <ItemGroup>
