@@ -1,0 +1,47 @@
+name: Build & Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: windows-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'    # or your target SDK
+
+      - name: Restore dependencies
+        run: dotnet restore Hec.Dss.csproj
+
+      - name: Build & produce nupkg
+        run: |
+          dotnet build Hec.Dss.csproj \
+            --configuration Release \
+            --no-restore \
+            /p:PackageOutputPath=./artifacts/nuget
+
+      - name: Publish to Nexus
+        if: github.event_name == 'push'
+        env:
+          NEXUS_FEED_URL: ${{ secrets.NEXUS_FEED_URL }}
+          NEXUS_API_KEY: ${{ secrets.NEXUS_API_KEY }}
+        run: |
+          echo "Found packages in ./artifacts/nuget:"
+          ls ./artifacts/nuget/*.nupkg || exit 0
+
+          for pkg in artifacts/nuget/*.nupkg; do
+            echo "Pushing $pkg to Nexus..."
+            dotnet nuget push "$pkg" \
+              --source "$NEXUS_FEED_URL" \
+              --api-key "$NEXUS_API_KEY" \
+              --skip-duplicate
+          done
