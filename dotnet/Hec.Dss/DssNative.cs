@@ -75,7 +75,7 @@ internal class DssNative
                                      string startDate, string startTime,
                                      string endDate, string endTime,
                                      int[] timeArray, double[] valueArray, int arraySize,
-                                     ref int numberValuesRead,int[] quality,ref int qualityLength, 
+                                     ref int numberValuesRead,int[] quality, int qualityLength, 
                                      ref int julianBaseDate, ref int timeGranularitySeconds,
                                      byte[] units, int unitsLength, byte[] type, int typeLength);
 

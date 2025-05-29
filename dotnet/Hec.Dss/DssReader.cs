@@ -283,7 +283,7 @@ namespace Hec.Dss
 
       status = DssNative.hec_dss_tsRetrieve(dss, dssPath.PathWithoutRange, 
           startDate, startTime, endDate, endTime, times, values, numberValues,
-         ref numberValuesRead, quality, ref qualityLength, ref julianBaseDate, ref timeGranularitySeconds,
+         ref numberValuesRead, quality, qualityLength, ref julianBaseDate, ref timeGranularitySeconds,
          units.Data, units.Length, type.Data, type.Length);
 
       TimeSeries ts = new TimeSeries();
