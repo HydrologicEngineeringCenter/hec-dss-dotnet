@@ -3,14 +3,19 @@
 
 # downloads linux and windows native DSS DLL.
 
-if( Test-Path -Path native-lib\win\hecdss.dll ){
- # file allready exists
+$baseURL = "https://www.hec.usace.army.mil/nexus/repository/maven-public/mil/army/usace/hec/hecdss/"
+$win_version = "7-JA-9"
+$linux_version = "7-JA-9"
+
+# native-lib\version.txt records which version was downloaded,
+# so changing the versions above triggers a fresh download
+$versionFile = "native-lib\version.txt"
+$version = $win_version + " " + $linux_version
+
+if( (Test-Path -Path native-lib\win\hecdss.dll) -and (Test-Path -Path $versionFile) -and ((Get-Content $versionFile) -eq $version) ){
+ # files already exist for this version
 }
 else{
-$baseURL = "https://www.hec.usace.army.mil/nexus/repository/maven-public/mil/army/usace/hec/hecdss/"
-$win_version = "7-IU-6"
-$linux_version = "7-IU-6"
-
 $linux = $baseURL + $linux_version+ "-linux-x86_64/hecdss-" + $linux_version +"-linux-x86_64.zip"
 $win = $baseURL + $win_version+ "-win-x86_64/hecdss-" + $win_version +"-win-x86_64.zip"
 
@@ -27,5 +32,6 @@ cd native-lib\win
 Invoke-WebRequest -URI $win -OutFile hecdss.zip
 cmd /r 7z e hecdss.zip
 cd ..\..
+Set-Content -Path $versionFile -Value $version
 }
 cmd /r dir /s /b .\native-lib\

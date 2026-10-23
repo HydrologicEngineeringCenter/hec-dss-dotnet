@@ -10,16 +10,22 @@ namespace Hec.Dss
 
     }
 
+    // storage flags for hec_dss_tsStoreRegular / hec_dss_tsStoreIrregular
+    private const int StorageFlagReplaceAll = 0;   // regular: always replace data
+    private const int StorageFlagDeleteInsert = 1; // irregular: replace old data with new
+
     /// <summary>
     /// Converts from DSS version 6 to DSS version 7.
+    /// No longer supported: the native hecdss library (7-JA and later) only supports DSS version 7.
+    /// Convert DSS version 6 files using HEC-DSSVue https://www.hec.usace.army.mil/software/hec-dssvue/
     /// </summary>
     /// <param name="fileName6"></param>
     /// <param name="fileName7"></param>
-    /// <returns>zero if sucessful, otherwise returns an integer error code</returns>
+    /// <returns>always -700, the native error code for an unsupported DSS version</returns>
+    [Obsolete("DSS version 6 conversion was removed from the native hecdss library. Use HEC-DSSVue to convert DSS 6 files.")]
     public static int ConvertFromDSS6ToDSS7(string fileName6, string fileName7)
     {
-     int status = DssNative.hec_dss_convertToVersion7(fileName6, fileName7);
-      return status;
+      return -700;
     }
 
     public int Write(TimeSeriesProfile profile, bool saveAsFloat = false)
@@ -122,7 +128,8 @@ namespace Hec.Dss
         if( ts.Qualities != null )
            qualityLength = ts.Qualities.Length;
         rval = DssNative.hec_dss_tsStoreRegular(dss, ts.Path.FullPath,date, time, ts.Values,
-                   ts.Values.Length,ts.Qualities,qualityLength, saveAsFloat ? 1 : 0, ts.Units, ts.DataType);
+                   ts.Values.Length,ts.Qualities,qualityLength, null, 0, saveAsFloat ? 1 : 0, ts.Units, ts.DataType,
+                   "", StorageFlagReplaceAll); // empty time zone: native code does not accept null
 
       }
       else
@@ -132,8 +139,9 @@ namespace Hec.Dss
         string startBaseDate = Time.JulianToHecDate(julianBaseDate);
         int[] times = Time.ConvertDatesToHecInteger(ts.Times, julianBaseDate, timeGranularitySeconds);
 
-        rval = DssNative.hec_dss_tsStoreIregular(dss, ts.Path.FullPath, startBaseDate, times,timeGranularitySeconds,
-           ts.Values, ts.Values.Length, ts.Qualities, ts.Qualities.Length, saveAsFloat ? 1 : 0, ts.Units, ts.DataType);
+        rval = DssNative.hec_dss_tsStoreIrregular(dss, ts.Path.FullPath, startBaseDate, times,timeGranularitySeconds,
+           ts.Values, ts.Values.Length, ts.Qualities, ts.Qualities.Length, null, 0, saveAsFloat ? 1 : 0, ts.Units, ts.DataType,
+           "", StorageFlagDeleteInsert); // empty time zone: native code does not accept null
       }
       if (ts.LocationInformation != null)
           StoreLocation(ts.Path.FullPath, ts.LocationInformation, false);
@@ -210,12 +218,13 @@ namespace Hec.Dss
    grid.NumberOfCellsX, grid.NumberOfCellsY,
    grid.RangeLimitTable.Length, grid.SRSDefinitionType,
    grid.TimeZoneRawOffset, grid.IsInterval ? 1 : 0, grid.IsTimeStamped ? 1 : 0,
+   0, // compressionSize: data is not pre-compressed
    grid.Units, grid.DataSource,
    grid.SRSName, grid.SRSDefinition,
    grid.TimeZoneID, grid.CellSize, grid.XCoordOfGridCellZero,
    grid.YCoordOfGridCellZero, grid.NullValue, grid.MaxDataValue, grid.MinDataValue,
    grid.MeanDataValue, grid.RangeLimitTable, grid.NumberEqualOrExceedingRangeLimit,
-   grid.Data, grid.Data.Length);
+   grid.Data);
 
       Console.WriteLine(status);
     }
@@ -255,7 +264,7 @@ namespace Hec.Dss
         pd.Ordinates.Length, values,
         values.Length, pd.Ordinates.Length, pd.CurveCount, pd.UnitsIndependent,
         pd.TypeIndependent, pd.UnitsDependent, pd.TypeDependent, 
-        labels.Data, labels.Data.Length);
+        labels.Data, labels.Data.Length, ""); // empty time zone: native code does not accept null
 
     }
 

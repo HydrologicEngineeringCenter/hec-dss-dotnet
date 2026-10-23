@@ -13,10 +13,6 @@ internal class DssNative
   [DllImport("hecdss")]
    public static extern int hec_dss_open(string fileName, out IntPtr dss);
 
-
-  [DllImport("hecdss")]
-  public static extern int hec_dss_convertToVersion7(string fileName6, string fileName7);
-
   [DllImport("hecdss")]
   public static extern int hec_dss_getFileVersion(string fileName);
 
@@ -58,26 +54,32 @@ internal class DssNative
             string startDate, string startTime,
             double[] valueArray, int arraySize,
             int[] qualityArray, int qualityArraySize,
+            string cnotes, int cnotesLengthTotal,
             int saveAsFloat,
-            string units, string type);
+            string units, string type,
+            string timeZoneName, int storageFlag);
 
   [DllImport("hecdss")]
-  public static extern int hec_dss_tsStoreIregular(IntPtr dss, string pathname,
+  public static extern int hec_dss_tsStoreIrregular(IntPtr dss, string pathname,
   string startDateBase,
   int[] times, int timeGranularitySeconds,
   double[] valueArray, int valueArraySize,
   int[] qualityArray, int qualityArraySize,
+  string cnotes, int cnotesLengthTotal,
   int saveAsFloat,
-  string units, string type);
+  string units, string type,
+  string timeZoneName, int storageFlag);
 
    [DllImport("hecdss", CharSet = CharSet.Ansi, ExactSpelling = true)]
    public static extern int hec_dss_tsRetrieve(IntPtr dss, string pathname,
                                      string startDate, string startTime,
                                      string endDate, string endTime,
                                      int[] timeArray, double[] valueArray, int arraySize,
-                                     ref int numberValuesRead,int[] quality, int qualityLength, 
+                                     byte[] cnotesBuffer, int cnoteSize,
+                                     ref int numberValuesRead,int[] quality, int qualityWidth,
                                      ref int julianBaseDate, ref int timeGranularitySeconds,
-                                     byte[] units, int unitsLength, byte[] type, int typeLength);
+                                     byte[] units, int unitsLength, byte[] type, int typeLength,
+                                     byte[] timeZoneName, int timeZoneNameLength);
 
 
   [DllImport("hecdss")]
@@ -108,7 +110,7 @@ internal class DssNative
   public static extern int hec_dss_dateToJulian(string date);
 
   [DllImport("hecdss")]
-  public static extern int hec_dss_julianToYearMonthDay(int julian, ref int year, ref int month, ref int day);
+  public static extern void hec_dss_julianToYearMonthDay(int julian, ref int year, ref int month, ref int day);
 
 
   [DllImport("hecdss")]
@@ -147,7 +149,8 @@ internal class DssNative
   byte[] typeIndependent, int typeIndependentLength,
   byte[] unitsDependent, int unitsDependentLength,
   byte[] typeDependent, int typeDependentLength,
-  byte[] labels, int labelsLength);
+  byte[] labels, int labelsLength,
+  byte[] timeZoneName, int timeZoneNameLength);
 
   [DllImport("hecdss")]
   public static extern int hec_dss_pdStore(IntPtr dss, string pathname,
@@ -157,8 +160,9 @@ internal class DssNative
   string unitsIndependent,
   string typeIndependent,
   string unitsDependent,
-  string typeDependent, 
-  byte[] labels, int labelsLength);
+  string typeDependent,
+  byte[] labels, int labelsLength,
+  string timeZoneName);
 
   [DllImport("hecdss")]
   public static extern int hec_dss_gridRetrieve(IntPtr dss, string pathname, int boolRetrieveData,
@@ -191,18 +195,19 @@ internal class DssNative
   int numberOfRanges, int srsDefinitionType,
   int timeZoneRawOffset, int isInterval,
   int isTimeStamped,
+  int compressionSize,
   string dataUnits,
   string dataSource,
-  string srsName, 
-  string srsDefinition, 
-  string timeZoneID, 
+  string srsName,
+  string srsDefinition,
+  string timeZoneID,
   float cellSize, float xCoordOfGridCellZero,
   float yCoordOfGridCellZero, float nullValue,
   float maxDataValue, float minDataValue,
   float meanDataValue,
-  float[] rangeLimitTable, 
+  float[] rangeLimitTable,
   int[] numberEqualOrExceedingRangeLimit,
-  float[] data, int dataLength);
+  float[] data);
 
 }
 
